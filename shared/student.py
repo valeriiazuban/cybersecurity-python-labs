@@ -1,0 +1,3 @@
+STUDENT_NAME = "Зубань Валерія"
+GROUP_NAME = "КБ-207"
+VARIANT_NUMBER = "14"
