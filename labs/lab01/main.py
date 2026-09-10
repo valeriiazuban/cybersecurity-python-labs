@@ -17,6 +17,9 @@ from labs.lab01.task2 import (
     USERS,
     check_resource_access,
 )
+from labs.lab01.task3 import (
+    process_user_password,
+)
 from shared.student import GROUP_NAME, STUDENT_NAME, VARIANT_NUMBER
 
 
@@ -26,7 +29,6 @@ def main():
     print(f"Варіант: {VARIANT_NUMBER}")
 
     print("Завдання 1")
-
     passwords_to_check = prepare_passwords_list(INITIAL_PASSWORDS)
     print(f"Всього паролів для аналізу : {len(passwords_to_check)}\n")
 
@@ -48,6 +50,20 @@ def main():
             print(
                 f"  Ресурс: {res_name:<20} | Статус: {status:<10} | Причина: {reason}"
             ) 
+    print("\n Завдання 3")
+    test_passwords = [
+        "Short123!",                     # Занадто короткий (< 16)
+        "SuperSecureBlockchainPassword2026!", # Коректний (>= 16)
+    ]
+
+    for pwd in test_passwords:
+        print(f"\nТестовий пароль: '{pwd}'")
+        res = process_user_password(pwd)
+        if res["success"]:
+            print(f"  [OK] Сіль (Salt): {res['salt']}")
+            print(f"  [OK] SHA-512 Хеш: {res['hash']}")
+        else:
+            print(f"  [ERROR] {res['error']}")
 
 
 if __name__ == "__main__":
