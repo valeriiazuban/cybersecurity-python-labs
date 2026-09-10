@@ -18,7 +18,13 @@ from labs.lab01.task2 import (
     check_resource_access,
 )
 from labs.lab01.task3 import (
-    process_user_password,
+    MIN_PASSWORD_LENGTH,
+    USERS_TO_REGISTER,
+    ValidationError,
+    create_users,
+    generate_personal_salt,
+    load_users_db,
+    login,
 )
 from shared.student import GROUP_NAME, STUDENT_NAME, VARIANT_NUMBER
 
@@ -50,20 +56,38 @@ def main():
             print(
                 f"  Ресурс: {res_name:<20} | Статус: {status:<10} | Причина: {reason}"
             ) 
-    print("\n Завдання 3")
-    test_passwords = [
-        "Short123!",                     # Занадто короткий (< 16)
-        "SuperSecureBlockchainPassword2026!", # Коректний (>= 16)
-    ]
+    print("\nЗавдання 3 Хешування, Реєстрація та Автентифікація ")
+    print(f"Персональна сіль: '{generate_personal_salt()}'")
+    print(f"Мінімальна довжина пароля: {MIN_PASSWORD_LENGTH}\n")
 
-    for pwd in test_passwords:
-        print(f"\nТестовий пароль: '{pwd}'")
-        res = process_user_password(pwd)
-        if res["success"]:
-            print(f"  [OK] Сіль (Salt): {res['salt']}")
-            print(f"  [OK] SHA-512 Хеш: {res['hash']}")
-        else:
-            print(f"  [ERROR] {res['error']}")
+    # Обробка винятків
+    try:
+        # Реєстрація користувачів
+        csv_path = create_users(USERS_TO_REGISTER)
+        print(f"[OK] Базу даних збережено: {csv_path}")
+
+        # 4. Читання бази даних
+        users_db = load_users_db(csv_path)
+        print("\n--- База даних користувачів (users.csv) ---")
+        print(f"{'Логін':<25} | {'Хеш пароля (SHA-512)':<30}")
+        print("-" * 60)
+        for u in users_db:
+            print(f"{u['username']:<25} | {u['password_hash'][:27]}...")
+
+        # 5. Автентифікація  6. Логування
+        print("\n--- Тестування автентифікації ---")
+        test_credentials = [
+            ("blockchain_dev", "SuperSecureBlockchainPassword2026!"),  # Успіх
+            ("crypto_trader", "WrongPassword1234567!"),                 # Невірний пароль
+        ]
+
+        for u, p in test_credentials:
+            is_logged_in = login(u, p, users_db)
+            res_str = "УСПІШНО" if is_logged_in else "ПОМИЛКА ВХОДУ"
+            print(f"Спроба входу для '{u}': {res_str}")
+
+    except (OSError, FileNotFoundError, PermissionError, ValidationError, ValueError) as e:
+        print(f"[ERROR] Виникла помилка: {e}")
 
 
 if __name__ == "__main__":
