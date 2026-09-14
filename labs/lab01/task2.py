@@ -52,7 +52,7 @@ SECURITY_LEVELS = (
     "Institutional",
 )
 
-BLOCKED_USERS = {"mining_pool", "flash_loan_attack", "rug_pull_scam"}
+BLOCKED_USERS = {"flash_loan_attack", "rug_pull_scam"}
 
 
 def check_resource_access(
