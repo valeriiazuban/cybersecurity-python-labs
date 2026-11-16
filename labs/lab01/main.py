@@ -1,9 +1,7 @@
 import os
 import sys
 
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from labs.lab01.task1 import (
     CRITERIA,
@@ -49,13 +47,11 @@ def main():
     for username in USERS:
         print(f"\nПеревірка доступу для користувача: [{username}]")
         for res_name, req_level in RESOURCES[:3]:
-            allowed, reason = check_resource_access(
-                username, res_name, req_level
-            )
+            allowed, reason = check_resource_access(username, res_name, req_level)
             status = "ДОЗВОЛЕНО" if allowed else "ВІДМОВЛЕНО"
             print(
                 f"  Ресурс: {res_name:<20} | Статус: {status:<10} | Причина: {reason}"
-            ) 
+            )
     print("\nЗавдання 3 Хешування, Реєстрація та Автентифікація ")
     print(f"Персональна сіль: '{generate_personal_salt()}'")
     print(f"Мінімальна довжина пароля: {MIN_PASSWORD_LENGTH}\n")
@@ -66,7 +62,7 @@ def main():
         csv_path = create_users(USERS_TO_REGISTER)
         print(f"[OK] Базу даних збережено: {csv_path}")
 
-        # 4. Читання бази даних
+        # Читання бази даних
         users_db = load_users_db(csv_path)
         print("\n--- База даних користувачів (users.csv) ---")
         print(f"{'Логін':<25} | {'Хеш пароля (SHA-512)':<30}")
@@ -74,11 +70,11 @@ def main():
         for u in users_db:
             print(f"{u['username']:<25} | {u['password_hash'][:27]}...")
 
-        # 5. Автентифікація  6. Логування
+        # Автентифікація  6. Логування
         print("\n--- Тестування автентифікації ---")
         test_credentials = [
-            ("blockchain_dev", "SuperSecureBlockchainPassword2026!"),  # Успіх
-            ("crypto_trader", "WrongPassword1234567!"),                 # Невірний пароль
+            ("blockchain_dev", "SuperSecureBlockchainPassword2026!"),  # успішно
+            ("crypto_trader", "WrongPassword1234567!"),  # Невірний пароль
         ]
 
         for u, p in test_credentials:
@@ -86,10 +82,15 @@ def main():
             res_str = "УСПІШНО" if is_logged_in else "ПОМИЛКА ВХОДУ"
             print(f"Спроба входу для '{u}': {res_str}")
 
-    except (OSError, FileNotFoundError, PermissionError, ValidationError, ValueError) as e:
+    except (
+        OSError,
+        FileNotFoundError,
+        PermissionError,
+        ValidationError,
+        ValueError,
+    ) as e:
         print(f"[ERROR] Виникла помилка: {e}")
 
 
 if __name__ == "__main__":
     main()
-    

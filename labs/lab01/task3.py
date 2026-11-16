@@ -13,7 +13,6 @@ class ValidationError(Exception):
     """Власний виняток для помилок валідації пароля."""
 
 
-
 # Персональна сіль
 def generate_personal_salt() -> str:
     return str(VARIANT_NUMBER).zfill(5)
@@ -25,9 +24,7 @@ def generate_hash(password: str, salt: str = "00000") -> str:
         raise ValueError("Пароль та сіль не можуть бути порожніми")
 
     if len(password) < MIN_PASSWORD_LENGTH:
-        raise ValidationError(
-            f"Пароль коротший за {MIN_PASSWORD_LENGTH} символів"
-        )
+        raise ValidationError(f"Пароль коротший за {MIN_PASSWORD_LENGTH} символів")
 
     salted_password = (password + salt).encode("utf-8")
     return hashlib.sha512(salted_password).hexdigest()
@@ -55,9 +52,7 @@ def create_user(username: str, password: str) -> tuple[str, str]:
 
 
 def create_users(users_list: tuple | list) -> str:
-    data_dir = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "data")
-    )
+    data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "data"))
     os.makedirs(data_dir, exist_ok=True)
     file_path = os.path.join(data_dir, "users.csv")
 
@@ -68,9 +63,7 @@ def create_users(users_list: tuple | list) -> str:
                 user_data = create_user(username, password)
                 f.write(f"{user_data[0]},{user_data[1]}\n")
             except (ValidationError, ValueError) as e:
-                print(
-                    f"Пропущено користувача {username}: {e}"
-                )
+                print(f"Пропущено користувача {username}: {e}")
 
     return file_path
 
@@ -90,6 +83,7 @@ def load_users_db(file_path: str) -> list[dict]:
                 users_db.append({"username": username, "password_hash": pwd_hash})
     return users_db
 
+
 # Логування подій (Декоратор)
 def log_event(func):
     @functools.wraps(func)
@@ -101,9 +95,7 @@ def log_event(func):
                 result_status = "success"
             return res
         finally:
-            data_dir = os.path.abspath(
-                os.path.join(os.path.dirname(__file__), "data")
-            )
+            data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "data"))
             os.makedirs(data_dir, exist_ok=True)
             log_file = os.path.join(data_dir, "log.json")
 
@@ -130,6 +122,8 @@ def log_event(func):
 
     return wrapper
     # Автентифікація
+
+
 @log_event
 def login(username: str, password: str, users_db: list[dict]) -> bool:
     if not username or not password:
@@ -142,5 +136,3 @@ def login(username: str, password: str, users_db: list[dict]) -> bool:
         if user["username"] == username and user["password_hash"] == pwd_hash:
             return True
     return False
-
-

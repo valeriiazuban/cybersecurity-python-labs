@@ -1,0 +1,3 @@
+AlertID,Timestamp,Hostname,ThreatName,Severity,ActionTaken
+ALT-1001,2026-09-27T08:12:00Z,WS-FINANCE-04,Win32.Trojan.Ransomware,Critical,Active / Block Failed
+ALT-1002,2026-09-27T08:15:30Z,SERVER-DB-01,HackTool.Mimikatz,High,Ignored by User

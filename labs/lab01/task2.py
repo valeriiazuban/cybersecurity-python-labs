@@ -1,4 +1,3 @@
-
 USERS = {
     "blockchain_dev": {
         "role": "blockchain_developer",
@@ -59,11 +58,11 @@ def check_resource_access(
     username: str, resource_name: str, resource_req_level: int
 ) -> tuple[bool, str]:
     """Перевіряє можливість доступу користувача до ресурсу."""
-    #Перевірка на список заблокованих
+    # Перевірка на список заблокованих
     if username in BLOCKED_USERS:
         return False, "Користувач у списку заблокованих (BLOCKED_USERS)"
 
-    #Перевірка існування користувача
+    # Перевірка існування користувача
     user_data = USERS.get(username)
     if not user_data:
         return False, "Користувач не знайдений у системі"
@@ -75,6 +74,12 @@ def check_resource_access(
     # Перевірка рівня допуску clearance
     user_clearance = user_data.get("clearance", 0)
     if user_clearance >= resource_req_level:
-        return True, f"Доступ дозволено (Допуск {user_clearance} >= {resource_req_level})"
+        return (
+            True,
+            f"Доступ дозволено (Допуск {user_clearance} >= {resource_req_level})",
+        )
 
-    return False, f"Недостатній рівень допуску ({user_clearance} < {resource_req_level})"
+    return (
+        False,
+        f"Недостатній рівень допуску ({user_clearance} < {resource_req_level})",
+    )

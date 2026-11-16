@@ -43,9 +43,7 @@ def prepare_passwords_list(passwords: list[str]) -> list[str]:
     return working_list
 
 
-def check_password_strength(
-    password: str, criteria: dict, forbidden: set
-) -> dict:
+def check_password_strength(password: str, criteria: dict, forbidden: set) -> dict:
     feedback = []
 
     # Перевірка на присутність у списку заборонених

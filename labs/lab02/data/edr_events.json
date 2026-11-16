@@ -1,0 +1,34 @@
+[
+  {
+    "AlertID": "ALT-1001",
+    "Timestamp": "2026-09-27T08:12:00Z",
+    "Hostname": "WS-FINANCE-04",
+    "ThreatName": "Win32.Trojan.Ransomware",
+    "Severity": "Critical",
+    "ActionTaken": "Active / Block Failed"
+  },
+  {
+    "AlertID": "ALT-1002",
+    "Timestamp": "2026-09-27T08:15:30Z",
+    "Hostname": "SERVER-DB-01",
+    "ThreatName": "HackTool.Mimikatz",
+    "Severity": "High",
+    "ActionTaken": "Ignored by User"
+  },
+  {
+    "AlertID": "ALT-1003",
+    "Timestamp": "2026-09-27T08:20:10Z",
+    "Hostname": "WS-FINANCE-04",
+    "ThreatName": "Adware.Generic",
+    "Severity": "Low",
+    "ActionTaken": "Quarantined"
+  },
+  {
+    "AlertID": "ALT-1004",
+    "Timestamp": "2026-09-27T08:25:00Z",
+    "Hostname": "WS-DEV-12",
+    "ThreatName": "PUP.Optional.Toolbar",
+    "Severity": "Medium",
+    "ActionTaken": "Deleted"
+  }
+]
